@@ -2,17 +2,17 @@
 //#include "pros/adi.hpp"
 
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
-pros::MotorGroup left_motors({13, -16, -14}, pros::MotorGearset::blue); //-13,-15, 12
-pros::MotorGroup right_motors({-18, 19, 20}, pros::MotorGearset::blue); //10,2,-9
-pros::Motor intake_motor_front(15, pros::MotorGearset::green);//R1, R2
-pros::Motor intake_motor_back(-17, pros::MotorGearset::red);// L1, 
+pros::MotorGroup left_motors({13, -3, -14}, pros::MotorGearset::blue); //-13,-15, 12
+pros::MotorGroup right_motors({-17, 18, 19}, pros::MotorGearset::blue); //10,2,-9
+pros::Motor intake_motor_front(-6, pros::MotorGearset::green);//R1, R2
+pros::Motor intake_motor_back(11, pros::MotorGearset::red);// L1, 
 // pros::Motor arm_motor(-17, pros::MotorGearset::green);//20
 //21
 
-pros::Rotation h_tracking(-2);
+pros::Rotation h_tracking(-16);
 
 // pros::ADIDigitalOut wing ('E');//B
-pros::Imu imu(9);
+pros::Imu imu(8);
 
 // horizontal tracking wheel
 lemlib::TrackingWheel horizontal_tracking_wheel(&h_tracking, lemlib::Omniwheel::NEW_2, -4.5);

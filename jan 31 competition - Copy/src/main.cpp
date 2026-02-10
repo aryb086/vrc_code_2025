@@ -35,7 +35,8 @@ void on_center_button() {
  */
  
 pros::adi::DigitalOut matchloader ('A');
-pros::adi::DigitalOut midgoal ('B');
+pros::adi::DigitalOut midgoal ('H');
+pros::adi::DigitalOut midgoal2 ('G');
 pros::adi::DigitalOut wing ('C');
 
 void initialize() {
@@ -425,7 +426,7 @@ void opcontrol() {
 
 	bool back_intake_running = false;
 	bool both_intake = false;
-	bool intake_running = false;
+	bool intake_running = true;
     bool intake_reverse_running = false;
  
     bool last_button_R1_state = false;
@@ -436,14 +437,16 @@ void opcontrol() {
     bool last_button_right_state = false;
     bool last_button_Y_state = false;
     bool last_button_B_state = false;
-    bool last_button_down_state = false;
+    bool last_button_down_state = false;\
+    bool last_button_X_state = false;
+    bool last_button_A_state = false;
 
 
 
     // bool last_button_left_state = false;
 	
-
 	bool midgoal_state = LOW;
+	bool midgoal2_state = LOW;
     bool matchloader_state = LOW; 
 	bool wing_state = LOW; 
 
@@ -471,6 +474,8 @@ void opcontrol() {
         bool current_button_L1_state = controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1);
         bool current_button_right_state = controller.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT);
 	
+        bool current_button_X_state = controller.get_digital(pros::E_CONTROLLER_DIGITAL_X);
+        bool current_button_A_state = controller.get_digital(pros::E_CONTROLLER_DIGITAL_A);
 
 
 		//both intake forward
@@ -478,13 +483,39 @@ void opcontrol() {
             midgoal_state = !midgoal_state; // Toggle the state
             
             if(midgoal_state) {
-                midgoal.set_value(HIGH);
+                midgoal.set_value(LOW);
 				
             } else {
-                midgoal.set_value(LOW);
+                midgoal.set_value(HIGH);
 		    }
         }
 
+		if (current_button_X_state && !last_button_X_state) {
+            midgoal2_state = !midgoal2_state; // Toggle the state
+            midgoal_state = !midgoal_state; // Toggle the state
+
+
+            if(midgoal2_state) {
+                midgoal2.set_value(HIGH);
+				midgoal.set_value(LOW);
+
+            } else {
+                midgoal2.set_value(LOW);
+				midgoal.set_value(HIGH);
+		    }
+        }
+
+		if (current_button_A_state && !last_button_A_state) {
+            midgoal2_state = !midgoal2_state; // Toggle the state
+
+
+            if(midgoal2_state) {
+                midgoal2.set_value(HIGH);
+
+            } else {
+                midgoal2.set_value(LOW);
+		    }
+        }
 
 		//front intake forward
         if (current_button_R1_state && !last_button_R1_state) {
@@ -509,9 +540,12 @@ void opcontrol() {
 
             if (intake_running) {
                 intake_motor_front.move(-127);
-            } else {
+			    intake_motor_back.move(-127);
+
+			} else {
                 intake_motor_front.move(0);
-                bool intake_running = true;
+                intake_motor_back.move(0);
+				bool intake_running = true;
             }
         }
 
@@ -587,7 +621,9 @@ void opcontrol() {
         last_button_Y_state = current_button_Y_state;
         last_button_B_state = current_button_B_state;
 		last_button_down_state = current_button_down_state;
-        
+        last_button_A_state = current_button_A_state;
+        last_button_X_state = current_button_X_state;
+
 		
 		// last_button_up_state = current_button_up_state;
         // last_button_B_state = current_button_B_state;
