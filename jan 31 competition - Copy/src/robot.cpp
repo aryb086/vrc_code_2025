@@ -1,23 +1,24 @@
 #include "robot.h"
-//#include "pros/adi.hpp"
 
+// Controller and drivetrain declarations
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 pros::MotorGroup left_motors({13, -3, -14}, pros::MotorGearset::blue); //-13,-15, 12
 pros::MotorGroup right_motors({-17, 18, 19}, pros::MotorGearset::blue); //10,2,-9
 pros::Motor intake_motor_front(-6, pros::MotorGearset::green);//R1, R2
 pros::Motor intake_motor_back(11, pros::MotorGearset::red);// L1, 
-// pros::Motor arm_motor(-17, pros::MotorGearset::green);//20
-//21
 
+// Sensors
 pros::Rotation h_tracking(-16);
-
-// pros::ADIDigitalOut wing ('E');//B
 pros::Imu imu(8);
 
-// horizontal tracking wheel
+// Pneumatics
+pros::ADIDigitalOut matchloader ('A');
+pros::ADIDigitalOut midgoal ('H');
+pros::ADIDigitalOut midgoal2 ('G');
+pros::ADIDigitalOut wing ('C');
+
+// Tracking wheels
 lemlib::TrackingWheel horizontal_tracking_wheel(&h_tracking, lemlib::Omniwheel::NEW_2, -4.5);
-// vertical tracking wheel
-//lemlib::TrackingWheel vertical_tracking_wheel(&v_tracking, lemlib::Omniwheel::NEW_2, -2.5);
 
 lemlib::Drivetrain drivetrain(&left_motors, // left motor group
                               &right_motors, // right motor group
@@ -28,7 +29,7 @@ lemlib::Drivetrain drivetrain(&left_motors, // left motor group
 );
 
 
-lemlib::OdomSensors sensors(nullptr, // vertical tracking wheel 1, set to null
+lemlib::OdomSensors sensors(nullptr, // vertical tracking wheel 1, set to nullptr as we are using IMEs
                             nullptr, // vertical tracking wheel 2, set to nullptr as we are using IMEs
                             &horizontal_tracking_wheel, // horizontal tracking wheel 1
                             nullptr, // horizontal tracking wheel 2, set to nullptr as we don't have a second one
@@ -77,5 +78,3 @@ lemlib::Chassis chassis(drivetrain, // drivetrain settings
                         angular_controller, // angular PID settings
                         sensors
 );
-
-void init_robot();
