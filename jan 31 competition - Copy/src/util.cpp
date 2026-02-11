@@ -7,10 +7,14 @@ void intake_front_reverse(){
 
 void intake_front(){
 	intake_motor_front.move(127);
+	intake_motor_back.move(127);
+
 }
 
 void intake_front_stop(){
 	intake_motor_front.move(0);
+	intake_motor_back.move(0);
+
 }
 
 void intake_back(){
