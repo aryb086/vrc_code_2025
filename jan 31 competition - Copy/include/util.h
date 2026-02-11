@@ -11,3 +11,5 @@ void wingOut(void);
 void wingIn(void);
 void midgoalOut(void);
 void midgoalIn(void);
+void pidDriveForward(double distanceInches, int timeoutMs = 3000, int maxSpeed = 127, bool async = false);
+void pidDriveBackward(double distanceInches, int timeoutMs = 3000, int maxSpeed = 127, bool async = false);
