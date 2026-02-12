@@ -1,4 +1,4 @@
-#pragma once
+    #pragma once
 
 void auton_left(void);
 void auton_right(void);
