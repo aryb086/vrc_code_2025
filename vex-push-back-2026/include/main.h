@@ -72,6 +72,7 @@ void disabled(void);
 void competition_initialize(void);
 void opcontrol(void);
 void intake_front(void);
+void check_motor_temp(void);
 #ifdef __cplusplus
 }
 #endif

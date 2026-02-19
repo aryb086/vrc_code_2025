@@ -1,5 +1,6 @@
 #include "main.h"
 #include "auton.h"
+#include "lemlib/chassis/chassis.hpp"
 #include "liblvgl/llemu.hpp"
 #include "pros/llemu.hpp"
 #include "pros/misc.hpp"
@@ -39,28 +40,28 @@ void on_center_button() {
  * to keep execution time for this mode under a few seconds.
  */
  
+ void screenTask(void*) {
+    while (true) {
+        pros::lcd::print(0, "LD: %d", distanceLeft.get());
+        pros::lcd::print(1, "RD: %d", distanceRight.get());
+        pros::lcd::print(2, "Heading: %.2f", chassis.getPose().theta);
+        pros::delay(50);
+    }
+}
 
 void initialize() {
-	pros::lcd::initialize();
+    pros::lcd::initialize();
 
-	pros::lcd::set_text(1, "Hello PROS User!");
+    imu.reset();
+    while(imu.is_calibrating()) {
+        pros::delay(10);
+    }
 
-	pros::lcd::register_btn1_cb(on_center_button);
+    chassis.calibrate();
 
-	pros::lcd::initialize(); // initialize brain screen
-    chassis.calibrate(); // calibrate sensors
+    
 
-
-    // pros::Task screen_task([&]() {
-    //     while (true) {
-    //         // print robot location to the brain screen
-    //         printf(0, "X: %f", chassis.getPose().x); // x
-    //         pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
-    //         pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
-    //         pros::delay(20);
-    //     }
-    // });
-
+    //static pros::Task screen_task(screenTask);
 }
 
 /**
@@ -79,7 +80,8 @@ void disabled() {}
  * This task will exit when the robot is enabled and autonomous or opcontrol
  * starts.
  */
-void competition_initialize() {}
+void competition_initialize() {
+}
 
 /**
  * Runs the user autonomous code. This function will be started in its own task
@@ -94,12 +96,39 @@ void competition_initialize() {}
  */
 
 void autonomous() {
+    // pros::Task screen_task([&]() {
+    //     while (true) {
+    //         // print robot location to the brain screen
+    //         // pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
+    //         // pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
+    //         // pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
+    //         // pros::delay(20);
+    //         debugWallReadings();
+    //     }
+    // });
+
+    
+    
     switch (auton_selection) {
-        case 0: auton_skills(); break;
+        case 0: auton_skills3(); break;
         case 1: awp(); break;
         case 2: auton_left(); break;
         case 3: auton_right(); break;
     }
+
+    check_motor_temp();
+    
+}
+
+void check_motor_temp(){
+    std::vector<double> left_temps = left_motors.get_temperature_all();
+    double max_tempL = 0;
+    for(double t: left_temps) if( t > max_tempL) max_tempL = t;
+
+    std::vector<double> right_temps = right_motors.get_temperature_all();
+    double max_tempR = 0;
+    for(double t: left_temps) if( t > max_tempR) max_tempR = t;
+    pros::lcd::print(5, "Right: %.2f, Left: %.2f", max_tempR, max_tempL);
 }
 
 /**
@@ -139,8 +168,8 @@ void opcontrol() {
     bool last_button_Y_state = false;
     bool last_button_B_state = false;
     bool last_button_down_state = false;\
-    bool last_button_X_state = false;
-    bool last_button_A_state = false;
+    // bool last_button_X_state = false;
+    // bool last_button_A_state = false;
 
 
 
@@ -175,48 +204,63 @@ void opcontrol() {
         bool current_button_L1_state = controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1);
         bool current_button_right_state = controller.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT);
 	
-        bool current_button_X_state = controller.get_digital(pros::E_CONTROLLER_DIGITAL_X);
-        bool current_button_A_state = controller.get_digital(pros::E_CONTROLLER_DIGITAL_A);
+        // bool current_button_X_state = controller.get_digital(pros::E_CONTROLLER_DIGITAL_X);
+        // bool current_button_A_state = controller.get_digital(pros::E_CONTROLLER_DIGITAL_A);
 
 
 		//both intake forward
+
         if (current_button_right_state && !last_button_right_state) {
             midgoal_state = !midgoal_state; // Toggle the state
             
-            if(midgoal_state) {
-                midgoal.set_value(LOW);
-				
-            } else {
-                midgoal.set_value(HIGH);
-		    }
+            midgoal.set_value(LOW);
+            midgoal2.set_value(LOW); 
+
+            // if(midgoal_state) {				
+            // } else {
+            //     midgoal.set_value(HIGH);
+		    // }
         }
 
-		if (current_button_X_state && !last_button_X_state) {
+        if (current_button_Y_state && !last_button_Y_state) {
+            midgoal_state = !midgoal_state; // Toggle the state
+            
+            midgoal.set_value(LOW);
+            midgoal2.set_value(LOW); 
+
+            // if(midgoal_state) {				
+            // } else {
+            //     midgoal.set_value(HIGH);
+		    // }
+        }
+
+		if (current_button_L1_state && !last_button_L1_state) {
             midgoal2_state = !midgoal2_state; // Toggle the state
             midgoal_state = !midgoal_state; // Toggle the state
+            
+            midgoal2.set_value(HIGH);
+			midgoal.set_value(LOW);
+
+            // if(midgoal2_state) {
 
 
-            if(midgoal2_state) {
-                midgoal2.set_value(HIGH);
-				midgoal.set_value(LOW);
-
-            } else {
-                midgoal2.set_value(LOW);
-				midgoal.set_value(HIGH);
-		    }
+            // } else {
+            //     midgoal2.set_value(LOW);
+			// 	midgoal.set_value(HIGH);
+		    // }
         }
 
-		if (current_button_A_state && !last_button_A_state) {
-            midgoal2_state = !midgoal2_state; // Toggle the state
+		// if (current_button_A_state && !last_button_A_state) {
+        //     midgoal2_state = !midgoal2_state; // Toggle the state
 
 
-            if(midgoal2_state) {
-                midgoal2.set_value(HIGH);
+        //     if(midgoal2_state) {
+        //         midgoal2.set_value(HIGH);
 
-            } else {
-                midgoal2.set_value(LOW);
-		    }
-        }
+        //     } else {
+        //         midgoal2.set_value(LOW);
+		//     }
+        // }
 
 		//front intake forward
         if (current_button_R1_state && !last_button_R1_state) {
@@ -251,44 +295,42 @@ void opcontrol() {
         }
 
 		// back intake forward
-        if (current_button_L2_state && !last_button_L2_state) {
-            back_intake_running = !back_intake_running;
+        // if (current_button_L2_state && !last_button_L2_state) {
+        //     back_intake_running = !back_intake_running;
 
-            if (back_intake_running) {
-                // intake_motor_back.move(127);
-                intake_motor_back.move(-127);
-            } else {
-                // intake_motor_back.brake();
-                // intake_motor_front.brake();
-                // intake_motor_back.move(0);
-                intake_motor_back.move(0);
+        //     if (back_intake_running) {
+        //         // intake_motor_back.move(127);
+        //         intake_motor_back.move(-127);
+        //     } else {
+        //         // intake_motor_back.brake();
+        //         // intake_motor_front.brake();
+        //         // intake_motor_back.move(0);
+        //         intake_motor_back.move(0);
             
-                bool back_intake_running = true;
-            }
-        }
+        //         bool back_intake_running = true;
+        //     }
+        // }
 
 
         //back intake reverse
-        if (current_button_L1_state && !last_button_L1_state) {
-            back_intake_running = !back_intake_running;
+        // if (current_button_L1_state && !last_button_L1_state) {
+        //     back_intake_running = !back_intake_running;
 
-            if (back_intake_running) {
-                intake_motor_back.move(127);
-            } else {
-                intake_motor_back.move(0);
-                bool back_intake_running = true;
-            }
-        }
+        //     if (back_intake_running) {
+        //         intake_motor_back.move(127);
+        //     } else {
+        //         intake_motor_back.move(0);
+        //         bool back_intake_running = true;
+        //     }
+        // }
 		
-        if (current_button_Y_state && !last_button_Y_state) {
+        if (current_button_L2_state && !last_button_L2_state) {
             midgoal_state = !midgoal_state; // Toggle the state
             
-            if(midgoal_state) {
-                midgoal.set_value(HIGH);
-				
-            } else {
-                midgoal.set_value(LOW);
-		    }
+            midgoal2.set_value(LOW);
+			midgoal.set_value(HIGH);
+
+
         }
 		
 	    if (current_button_down_state && !last_button_down_state) {
@@ -322,8 +364,8 @@ void opcontrol() {
         last_button_Y_state = current_button_Y_state;
         last_button_B_state = current_button_B_state;
 		last_button_down_state = current_button_down_state;
-        last_button_A_state = current_button_A_state;
-        last_button_X_state = current_button_X_state;
+        // last_button_A_state = current_button_A_state;
+        // last_button_X_state = current_button_X_state;
 
 		
 		// last_button_up_state = current_button_up_state;

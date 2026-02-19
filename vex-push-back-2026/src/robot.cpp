@@ -2,14 +2,16 @@
 
 // Controller and drivetrain declarations
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
-pros::MotorGroup left_motors({13, -3, -14}, pros::MotorGearset::blue); //-13,-15, 12
+pros::MotorGroup left_motors({13, -3, -2}, pros::MotorGearset::blue); //-13,-15, 12
 pros::MotorGroup right_motors({-17, 18, 19}, pros::MotorGearset::blue); //10,2,-9
 pros::Motor intake_motor_front(-6, pros::MotorGearset::green);//R1, R2
 pros::Motor intake_motor_back(11, pros::MotorGearset::red);// L1, 
 
 // Sensors
 pros::Rotation h_tracking(-16);
-pros::Imu imu(8);
+pros::Imu imu(4);
+pros::Distance distanceLeft(8);
+pros::Distance distanceRight(7);
 
 // Pneumatics
 pros::ADIDigitalOut matchloader ('A');
@@ -52,19 +54,19 @@ lemlib::ControllerSettings lateral_controller(10, // proportional gain (kP)//10
 
 lemlib::ControllerSettings lateral_controller(10, // proportional gain (kP)//10
                                               0, // integral gain (kI)
-                                              3, // derivative gain (kD)
+                                              18, //18.7 derivative gain (kD)
                                               3, // anti windup
                                               1, // small error range, in inches
                                               100, // small error range timeout, in milliseconds
                                               3, // large error range, in inches
                                               500, // large error range timeout, in milliseconds
-                                                20 // maximum acceleration (slew)
+                                              15// maximum acceleration (slew)
 );
 
 // angular PID controller
-lemlib::ControllerSettings angular_controller(2.2, //2
-                                              .08, // integral gain (kI)
-                                              10.1, // derivative gain (kD)
+lemlib::ControllerSettings angular_controller(1.216, //2.2
+                                              0, //.08
+                                            3.3, // 6.61
                                               3, // anti windup
                                               1, // small error range, in inches
                                               100, // small error range timeout, in milliseconds
