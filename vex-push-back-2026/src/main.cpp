@@ -50,6 +50,7 @@ void on_center_button() {
 }
 
 void initialize() {
+    pros::lcd::register_btn1_cb(on_center_button);
     pros::lcd::initialize();
 
     imu.reset();
@@ -58,9 +59,6 @@ void initialize() {
     }
 
     chassis.calibrate();
-
-    
-
     //static pros::Task screen_task(screenTask);
 }
 
