@@ -15,3 +15,5 @@ void auton_fourth_matchloading(void);
 void auton_park(void);
 void pid_tuning(void);
 void auton_skills3(void);
+void drive_forward(void);
+void skills_state(void);

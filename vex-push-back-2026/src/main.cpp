@@ -23,13 +23,14 @@ int auton_selection = 0;
  */
 void on_center_button() {
     auton_selection++;
-    if (auton_selection > 3) auton_selection = 0;
+    if (auton_selection > 4) auton_selection = 0;
 
     switch (auton_selection) {
         case 0: pros::lcd::set_text(2, "Auton: Skills"); break;
         case 1: pros::lcd::set_text(2, "Auton: AWP"); break;
         case 2: pros::lcd::set_text(2, "Auton: Left"); break;
         case 3: pros::lcd::set_text(2, "Auton: Right"); break;
+        case 4: pros::lcd::set_text(2, "Drive Forward"); break;
     }
 }
 
@@ -50,8 +51,8 @@ void on_center_button() {
 }
 
 void initialize() {
-    pros::lcd::register_btn1_cb(on_center_button);
     pros::lcd::initialize();
+    pros::lcd::register_btn1_cb(on_center_button);
 
     imu.reset();
     while(imu.is_calibrating()) {
@@ -108,10 +109,12 @@ void autonomous() {
     
     
     switch (auton_selection) {
-        case 0: auton_skills3(); break;
+        //case 0: auton_skills3(); break;
+        case 0: skills_state(); break;
         case 1: awp(); break;
         case 2: auton_left(); break;
         case 3: auton_right(); break;
+        case 4: drive_forward(); break;
     }
 
     check_motor_temp();
@@ -176,14 +179,13 @@ void opcontrol() {
 	bool midgoal_state = LOW;
 	bool midgoal2_state = LOW;
     bool matchloader_state = LOW; 
-	bool wing_state = LOW; 
+	bool wing_state = HIGH; 
+    wingOut();
 
 	// bool doinker_state = LOW; 
 
     
     while (true) {
-
-
 		int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
         int rightY = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
         chassis.tank(leftY, rightY);
