@@ -4,13 +4,14 @@
 #include "util.h"
 #include "pros/llemu.hpp"
 #include "pros/rtos.hpp"
+ASSET(curve1_txt);
 
 void skills_state(void){
 	chassis.setPose(-48, 6, 270);
 
 	//score preload in mid goal
 	
-	chassis.moveToPoint(-10, 6, 1000, {.forwards = false, .maxSpeed = 100}, false);
+	chassis.moveToPoint(-9, 6, 1000, {.forwards = false, .maxSpeed = 100}, false);
 	chassis.turnToHeading(315, 1000);
 	midgoal2.set_value(LOW);
 	midgoal.set_value(HIGH);
@@ -21,34 +22,46 @@ void skills_state(void){
 	//first 4 for left long goal
 	midgoal2.set_value(LOW);
 	midgoal.set_value(LOW);
-	chassis.moveToPoint(-18, 17, 1000, {.maxSpeed = 100}, false);
-	chassis.moveToPoint(-44, 44, 1000, {.maxSpeed = 80}, false);
-	matchloaderIn();
+	//chassis.moveToPoint(-19, 17, 1000, {.maxSpeed = 100}, false);
+	chassis.moveToPoint(-44, 44, 2000, {.maxSpeed = 80}, true);
 	chassis.turnToHeading(270, 800);
 	chassis.moveToPoint(-22, 44, 1000, {.forwards = false, .maxSpeed = 60}, false);
 	midgoal2.set_value(HIGH);
 	midgoal.set_value(LOW);
-	pros::delay(1600);
+	matchloaderOut();
+	pros::delay(1700);
 
 	//first matchloader
-	matchloaderOut();
 	midgoal2.set_value(LOW);
 	midgoal.set_value(LOW);
-	chassis.moveToPoint(-64, 44.5, 1500, {.forwards = true, .maxSpeed = 60}, false);
+	chassis.moveToPoint(-64, 43.5, 1200, {.forwards = true, .maxSpeed = 60}, false);
+	chassis.moveToPoint(-65, 43.5, 1500, {.forwards = true, .maxSpeed = 40}, true);
 	pros::delay(2000);
 
 	//scoring first 6 in long goal
 	chassis.moveToPoint(-45, 44, 1000, {.forwards = false, .maxSpeed = 60}, false);
 	matchloaderIn();
-	intake_front_stop();
-	chassis.turnToHeading(220, 1200);
-	chassis.moveToPoint(-34, 55, 2000, {.forwards = false, .maxSpeed = 100}, false);
-	chassis.turnToHeading(280, 900);
-	chassis.moveToPoint(38, 55, 2500, {.forwards = false, .maxSpeed = 100}, false);
-	chassis.turnToHeading(0, 900);
-	chassis.moveToPoint(38, 45, 2500, {.forwards = false, .maxSpeed = 100}, false);
+	chassis.turnToHeading(20, 700);
+	chassis.follow(curve1_txt, 10, 10000);
+	// chassis.moveToPoint(-39, 58, 1000, {.forwards = true, .maxSpeed = 100}, false);
+	// chassis.turnToHeading(90, 700);
+	// chassis.moveToPoint(0, 58, 2500, {.forwards = true, .maxSpeed = 100}, false);
+	// chassis.moveToPoint(32, 58, 2500, {.forwards = true, .maxSpeed = 100}, false);
+	// chassis.turnToHeading(0, 700);
+	chassis.moveToPoint(32, 50, 1000, {.forwards = false, .maxSpeed = 100}, false);
 	chassis.turnToHeading(90, 900);
-	chassis.moveToPoint(22, 45, 2500, {.forwards = false, .maxSpeed = 100}, false);
+	chassis.moveToPoint(18, 50, 1000, {.forwards = false, .maxSpeed = 80}, false);
+	midgoal2.set_value(HIGH);
+	midgoal.set_value(LOW);
+	matchloaderOut();
+	pros::delay(2000);
+
+	//second matchloader
+	midgoal2.set_value(LOW);
+	midgoal.set_value(LOW);
+	chassis.moveToPoint(64, 48.5, 1200, {.forwards = true, .maxSpeed = 60}, false);
+	chassis.moveToPoint(65, 48.5, 1500, {.forwards = true, .maxSpeed = 40}, true);
+	pros::delay(2000);
 }
 
 void auton_skills2(void) {
@@ -220,7 +233,6 @@ void auton_skills(void) {
 	chassis.turnToPoint(-40, -20, 1200, {.forwards = false, .maxSpeed = 80}, false);
 	chassis.moveToPoint(-33,55, 1000, {.forwards = false, .maxSpeed = 80}, false);
 	chassis.moveToPoint(-35,50, 1000, {.forwards = false, .maxSpeed = 60}, false);
-
 	chassis.turnToPoint(20,55, 1200, {.forwards = false, .maxSpeed = 100}, false);
 
 	//scoring first 7
@@ -431,7 +443,11 @@ void auton_right(void) {
 
 	chassis.setPose(43, 17, 270);
 	intake_front();
-	chassis.moveToPoint(15,26, 1500, {.maxSpeed = 70}, false);
+	chassis.moveToPoint(12,24, 1300, {.maxSpeed = 127}, false);
+	matchloaderOut();
+	pros::delay(200);
+	matchloaderIn();
+
 	// chassis.moveToPoint(10,44, 1500, {.maxSpeed = 60}, false);
 	// chassis.turnToHeading(360, 500);
 	// chassis.moveToPoint(7,54, 2000, {.maxSpeed = 50}, false);
@@ -439,7 +455,7 @@ void auton_right(void) {
 	// chassis.moveToPoint(23,23, 1500, {.forwards = false, .maxSpeed = 80}, false);
 	chassis.turnToHeading(48, 1200);
 	pros::delay(200);
-	chassis.moveToPoint(45,54, 2000, {.maxSpeed = 80}, false);
+	chassis.moveToPoint(35,50, 1500, {.maxSpeed = 80}, false);
 	chassis.turnToHeading(90, 500);
 	// chassis.moveToPoint(20,54, 1000, {.forwards = false, .maxSpeed = 80}, false);
 	// midgoal2.set_value(HIGH);
@@ -447,17 +463,25 @@ void auton_right(void) {
 
 	// pros::delay(2000);
 	// midgoal2.set_value(LOW);
-	chassis.moveToPoint(73,51, 1400, {.forwards = true, .maxSpeed = 60}, false);
+	chassis.moveToPoint(73,51, 1000, {.forwards = true, .maxSpeed = 60}, false);
 	// pros::delay(200);
 
 	chassis.moveToPoint(20,51, 1500, {.forwards = false, .maxSpeed = 70}, false);
 	midgoal2.set_value(HIGH);
 
 
-	pros::delay(2000);
-	chassis.moveToPoint(50,51, 1200, {.forwards = true, .maxSpeed = 70}, false);
-	chassis.moveToPoint(20,51, 1500, {.forwards = false, .maxSpeed = 110}, false);
+	pros::delay(4000);
 	matchloaderIn();
+
+	chassis.moveToPoint(45,51, 800, {.forwards = true, .maxSpeed = 70}, false);
+	pros::delay(200);	
+	chassis.moveToPoint(32,43, 1200, {.forwards = false, .maxSpeed = 70}, false);
+	pros::delay(200);	
+
+	chassis.moveToPoint(14,45, 2500, {.forwards = false, .maxSpeed = 70}, false);
+
+	// chassis.moveToPoint(20,51, 1500, {.forwards = false, .maxSpeed = 110}, false);
+	// matchloaderIn();
 
 	// chassis.moveToPoint(50,48, 1200, {.forwards = true, .maxSpeed = 70}, false);
 	// // chassis.turnToHeading(40, 500);
