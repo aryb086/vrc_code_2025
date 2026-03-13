@@ -2,19 +2,19 @@
 
 // Controller and drivetrain declarations
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
-pros::MotorGroup left_motors({-1, -2, 3}, pros::MotorGearset::blue); //-13,-15, 12
-pros::MotorGroup right_motors({5, 8, -7}, pros::MotorGearset::blue); //10,2,-9
+pros::MotorGroup left_motors({-1, -2, 5}, pros::MotorGearset::blue); //-13,-15, 12
+pros::MotorGroup right_motors({4, 8, -7}, pros::MotorGearset::blue); //10,2,-9
 pros::Motor intake_motor_front(-19, pros::MotorGearset::blue);//R1, R2
 pros::Motor intake_motor_back(13, pros::MotorGearset::blue);// L1, 
 
 // Sensors
 pros::Rotation v_tracking(-4);
-pros::Imu imu(21);
+pros::Imu imu(15);
 pros::Distance distanceLeft(8);
 pros::Distance distanceRight(7);
 
 // Pneumatics
-pros::ADIDigitalOut matchloader ('A');
+pros::ADIDigitalOut matchloader ('B');
 pros::ADIDigitalOut midgoal ('H');
 pros::ADIDigitalOut midgoal2 ('G');
 pros::ADIDigitalOut wing ('C');
@@ -64,9 +64,9 @@ lemlib::ControllerSettings lateral_controller(9, // proportional gain (kP)//10
 );
 
 // angular PID controller
-lemlib::ControllerSettings angular_controller(1 , //2.2
+lemlib::ControllerSettings angular_controller(4, //2.2
                                               0, //.08
-                                            3, // 6.61
+                                            29, // 6.61
                                               3, // anti windup
                                               1, // small error range, in inches
                                               100, // small error range timeout, in milliseconds

@@ -176,3 +176,18 @@ void debugWallReadings(
     pros::lcd::print(3, "Fused: %.2f deg", fusedHeading);
 }
 
+void midScore(int timeoutMs, int interval){
+    int initial_time = pros::millis();
+    int current_time = pros::millis() - initial_time;
+    int current_voltage_back = intake_motor_back.get_voltage();
+    int current_voltage_front = intake_motor_front.get_voltage();
+    while (current_time < timeoutMs) {
+        current_voltage_back = intake_motor_back.get_voltage();
+        current_voltage_front = intake_motor_front.get_voltage();
+        intake_motor_back.move(current_voltage_back - 3);
+        intake_motor_front.move(current_voltage_front - 3);
+        pros::delay(interval);
+        current_time = pros::millis() - initial_time;
+    }
+}
+
