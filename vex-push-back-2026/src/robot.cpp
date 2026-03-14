@@ -15,6 +15,7 @@ pros::Distance distanceRight(7);
 
 // Pneumatics
 pros::ADIDigitalOut matchloader ('B');
+pros::ADIDigitalOut midgoal_descore ('D');
 pros::ADIDigitalOut midgoal ('H');
 pros::ADIDigitalOut midgoal2 ('G');
 pros::ADIDigitalOut wing ('C');

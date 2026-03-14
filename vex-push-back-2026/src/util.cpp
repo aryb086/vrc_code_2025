@@ -8,6 +8,14 @@ void intake_front_reverse(){
     intake_motor_back.move(-127);
 }
 
+void midgoal_descoreOut(){
+    midgoal_descore.set_value(HIGH);
+}
+
+void midgoal_descoreIn(){
+    midgoal_descore.set_value(LOW);
+}
+
 void intake_front(){
 	intake_motor_front.move(127);
 	intake_motor_back.move(127);
@@ -178,16 +186,19 @@ void debugWallReadings(
 
 void midScore(int timeoutMs, int interval){
     int initial_time = pros::millis();
-    int current_time = pros::millis() - initial_time;
-    int current_voltage_back = intake_motor_back.get_voltage();
-    int current_voltage_front = intake_motor_front.get_voltage();
+    int current_time = 0;
+    int power = 120; // start full speed
+
     while (current_time < timeoutMs) {
-        current_voltage_back = intake_motor_back.get_voltage();
-        current_voltage_front = intake_motor_front.get_voltage();
-        intake_motor_back.move(current_voltage_back - 3);
-        intake_motor_front.move(current_voltage_front - 3);
+        intake_motor_back.move(power);
+        intake_motor_front.move(power);
+        power -= 2; // ramp down each interval
+        if (power < 0) power = 0;
         pros::delay(interval);
         current_time = pros::millis() - initial_time;
     }
+
+    intake_motor_back.move(0);
+    intake_motor_front.move(0);
 }
 

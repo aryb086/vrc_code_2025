@@ -154,7 +154,7 @@ void opcontrol() {
     // while (true) {
 
     // }
-
+    // bool midgoal_descore_state1 = false;
 	bool back_intake_running = false;
 	bool both_intake = false;
 	bool intake_running = true;
@@ -169,7 +169,7 @@ void opcontrol() {
     bool last_button_Y_state = false;
     bool last_button_B_state = false;
     bool last_button_down_state = false;\
-    // bool last_button_X_state = false;
+    bool last_button_X_state = false;
     // bool last_button_A_state = false;
 
 
@@ -180,6 +180,7 @@ void opcontrol() {
 	bool midgoal2_state = LOW;
     bool matchloader_state = LOW; 
 	bool wing_state = HIGH; 
+    bool midgoal_descore_state = HIGH;
     wingOut();
 
 	// bool doinker_state = LOW; 
@@ -200,7 +201,7 @@ void opcontrol() {
         bool current_button_B_state = controller.get_digital(pros::E_CONTROLLER_DIGITAL_B);
         bool current_button_L2_state = controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2);
         bool current_button_Y_state = controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y);
-        // bool current_button_X_state = controller.get_digital(pros::E_CONTROLLER_DIGITAL_X);
+        bool current_button_X_state = controller.get_digital(pros::E_CONTROLLER_DIGITAL_X);
         bool current_button_L1_state = controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1);
         bool current_button_right_state = controller.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT);
 	
@@ -221,6 +222,18 @@ void opcontrol() {
             //     midgoal.set_value(HIGH);
 		    // }
         }
+
+        if (current_button_X_state && !last_button_X_state) {
+            midgoal_descore_state = !midgoal_descore_state; // Toggle the state
+           
+            if (midgoal_descore_state) {
+                midgoal_descore.set_value(LOW);
+            } else {
+                midgoal_descore.set_value(HIGH);
+            }
+
+        }
+
 
         if (current_button_Y_state && !last_button_Y_state) {
             midgoal_state = !midgoal_state; // Toggle the state
@@ -365,7 +378,7 @@ void opcontrol() {
         last_button_B_state = current_button_B_state;
 		last_button_down_state = current_button_down_state;
         // last_button_A_state = current_button_A_state;
-        // last_button_X_state = current_button_X_state;
+        last_button_X_state = current_button_X_state;
 
 		
 		// last_button_up_state = current_button_up_state;

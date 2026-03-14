@@ -17,3 +17,5 @@ void pid_tuning(void);
 void auton_skills3(void);
 void drive_forward(void);
 void skills_state(void);
+void midgoal_descoreOut(void);
+void midgoal_descoreIn(void);

@@ -17,6 +17,7 @@ extern pros::Motor intake_motor_front;
 extern pros::Motor intake_motor_back;
 extern pros::Rotation v_tracking;
 extern pros::Rotation h_tracking;
+extern pros::ADIDigitalOut midgoal_descore;
 extern pros::ADIDigitalOut matchloader;
 extern pros::ADIDigitalOut midgoal;
 extern pros::ADIDigitalOut midgoal2;

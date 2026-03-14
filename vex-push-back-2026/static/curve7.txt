@@ -1,0 +1,53 @@
+-55, 45, 91.899
+-54.045, 46.757, 90.412
+-53.002, 48.463, 88.789
+-51.856, 50.102, 87.122
+-50.596, 51.655, 85.555
+-49.205, 53.09, 83.791
+-47.685, 54.388, 83.238
+-46.042, 55.528, 84.142
+-44.294, 56.498, 85.445
+-42.469, 57.313, 88.037
+-40.588, 57.994, 90.86
+-38.672, 58.565, 92.641
+-36.733, 59.056, 94.976
+-34.781, 59.488, 96.269
+-32.82, 59.882, 97.351
+-30.855, 60.253, 98.236
+-28.887, 60.613, 98.947
+-26.897, 60.751, 99
+-24.898, 60.799, 99
+-22.898, 60.847, 99
+-20.899, 60.895, 99
+-18.899, 60.944, 99
+-16.9, 60.992, 99
+-14.901, 61.04, 99
+-12.901, 61.088, 98.131
+-10.902, 61.136, 95.507
+-8.902, 61.184, 92.81
+-6.903, 61.232, 90.031
+-4.903, 61.28, 87.165
+-2.904, 61.328, 84.2
+-0.905, 61.377, 81.127
+1.095, 61.425, 77.934
+3.094, 61.473, 74.603
+5.094, 61.521, 71.117
+7.093, 61.569, 67.451
+9.093, 61.617, 63.574
+11.092, 61.665, 59.445
+13.091, 61.713, 55.006
+15.091, 61.762, 50.176
+17.09, 61.81, 44.829
+19.09, 61.858, 38.751
+21.089, 61.906, 31.522
+23.088, 61.954, 22.038
+25, 62, 0
+25, 62, 0
+44.994, 62.481, 0
+endData
+127
+99
+200
+-55, 45, -48.796, 57.049, -41.766, 58.272, -28.317, 60.717
+-28.317, 60.717, -1.658, 61.358, -1.658, 61.358, 25, 62
+#PATH.JERRYIO-DATA {"appVersion":"0.10.0","format":"LemLib v0.5","gc":{"robotWidth":12,"robotHeight":12,"robotIsHolonomic":false,"showRobot":false,"uol":2.54,"pointDensity":2,"controlMagnetDistance":1.968503937007874,"fieldImage":{"displayName":"V5RC 2026 - Push Back","signature":"V5RC-PushBack-H2H-TopDownHighlighted-TileColor66_71","origin":{"__type":"built-in"}},"coordinateSystem":"VEX Gaming Positioning System"},"paths":[{"segments":[{"controls":[{"uid":"AHHJPszetA","x":-55,"y":45,"lock":false,"visible":true,"heading":20,"__type":"end-point"},{"uid":"vEC1ZotvmO","x":-48.79606816106411,"y":57.048973700707876,"lock":false,"visible":true,"__type":"control"},{"uid":"XbdIpSz95l","x":-41.76581529396016,"y":58.2716263732477,"lock":false,"visible":true,"__type":"control"},{"uid":"GwgjM7ArT4","x":-28.31663589602217,"y":60.71693171832733,"lock":false,"visible":true,"heading":0,"__type":"end-point"}],"speedProfiles":[],"lookaheadKeyframes":[],"uid":"Wt1UhCPDrc"},{"controls":[{"uid":"GwgjM7ArT4","x":-28.31663589602217,"y":60.71693171832733,"lock":false,"visible":true,"heading":0,"__type":"end-point"},{"uid":"30ncI5EqcQ","x":25,"y":62,"lock":false,"visible":true,"heading":270,"__type":"end-point"}],"speedProfiles":[],"lookaheadKeyframes":[],"uid":"oQQf1qSWyi"}],"pc":{"speedLimit":{"minLimit":{"value":0,"label":"0"},"maxLimit":{"value":127,"label":"127"},"step":1,"from":20,"to":99},"bentRateApplicableRange":{"minLimit":{"value":0,"label":"0"},"maxLimit":{"value":1,"label":"1"},"step":0.001,"from":0,"to":0.1},"maxDecelerationRate":127},"name":"Path","uid":"h3hLq5uUJ6","lock":false,"visible":true}]}
